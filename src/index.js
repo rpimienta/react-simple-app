@@ -4,17 +4,30 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 
-function tick() {
-  const element = (
+function Welcome (props) {
+  return <h1>Welcome, {props.firstname+ ' ' +props.lastname}</h1>
+}
+// function tick() {
+//   const element = (
+//     <div>
+//       <h1>Hello, world!</h1>
+//       <h2>It is {new Date().toLocaleTimeString()}.</h2>
+//       <Welcome firstname="Sara" lastname="Jop"/>
+//     </div>
+//   );
+// }
+function App () {
+  return (
     <div>
-      <h1>Hello, world!</h1>
-      <h2>It is {new Date().toLocaleTimeString()}.</h2>
+      <Welcome firstname="Sara" lastname="Jop"/>
+      <Welcome firstname="Sara" lastname="Jop"/>
+      <Welcome firstname="Sara" lastname="Jop"/>
     </div>
   );
-  ReactDOM.render(
-    element,
+}
+ReactDOM.render(
+    <App />,
     document.getElementById('root')
   );
-}
 
-setInterval(tick, 1000);
+// setInterval(tick, 1000);
