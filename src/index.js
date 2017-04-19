@@ -1,71 +1,71 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-function Greeting(props) {
-  const isLoggedIn = props.isLoggedIn;
-  if (isLoggedIn) {
-    return <UserGreeting />;
-  }
-  return <GuestGreeting />;
-}
-
-function UserGreeting(props) {
-  return <h1>Welcome back!</h1>;
-}
-
-function GuestGreeting(props) {
-  return <h1>Please sign up.</h1>;
-}
-
-function LoginButton(props) {
+function ClearButton(props) {
   return (
     <button onClick={props.onClick}>
-      Login
+      Clear
+    </button>
+  );
+}
+function AddMails(props) {
+  return (
+    <button onClick={props.onClick}>
+      Add New Mail
     </button>
   );
 }
 
-function LogoutButton(props) {
-  return (
-    <button onClick={props.onClick}>
-      Logout
-    </button>
-  );
-}
-
-class LoginControl extends React.Component{
+class MailBox extends React.Component {
   constructor (props) {
-     super(props);
-     this.handleLoginClick = this.handleLoginClick.bind(this);
-     this.handleLogoutClick = this.handleLogoutClick.bind(this);
-     this.state = {isLoggedIn : true};
+    super(props);
+    this.clearPlate = this.clearPlate.bind(this);
+    this.addMails = this.addMails.bind(this);
+    this.state = {unreadMessages : props.unreadMessages};
   }
-  handleLoginClick () {
-    this.setState({isLoggedIn: true});
+  
+  addMails () {
+    this.setState((prevState) => ({
+      unreadMessages: prevState.unreadMessages + 1
+    }));
   }
-  handleLogoutClick () {
-    this.setState({isLoggedIn: false});
+  clearPlate () {
+    this.setState({unreadMessages : []});
   }
+
   render () {
-    const isLoggedIn = this.state.isLoggedIn;
-
-    let button = null;
-    if (isLoggedIn) {
-      button = <LogoutButton onClick={this.handleLogoutClick} />;
-    } else {
-      button = <LoginButton onClick={this.handleLoginClick} />;
-    }
-
+    let buttonClear = null;
+    let buttonAdd = null;
+    if (this.state.unreadMessages.length > 0) {
+      buttonClear = <ClearButton onClick={this.clearPlate} />;
+    } 
+    buttonAdd = <AddMails onClick={this.addMails} />;
+    
     return (
       <div>
-        <Greeting isLoggedIn={isLoggedIn} />
-        {button}
+      <h1>Hello!</h1>
+        {this.state.unreadMessages.length > 0 &&
+          <div>
+            <h2>
+              You have {this.state.unreadMessages.length} unread messages.
+            </h2>
+            
+          </div>
+        }
+        {this.state.unreadMessages.length === 0 &&
+          <h2>
+            You have {this.state.unreadMessages.length} mails in your plate.
+          </h2>
+        }
+        {buttonClear}
+        {buttonAdd}
       </div>
     );
   }
 }
 
+const messages = ['React', 'Re: React', 'Re:Re: React'];
 ReactDOM.render(
-  <LoginControl />,
+  <MailBox unreadMessages={messages}/>,
   document.getElementById('root')
 );
