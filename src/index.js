@@ -1,47 +1,45 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
-class NameForm extends Component{
+class FlavorForm extends Component{
   constructor (props) {
     super(props);
-    this.state = { value: 'Please write an essay about your favorite DOM element.'};
+    this.state = { value: 'coconut'};
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(event) {
+    this.setState({value: event.target.value});
   }
 
-  handleSubmit (event) {
-    alert("Your name is: " + this.state.value);
+  handleSubmit(event) {
+    alert('Your favorite flavor is: ' + this.state.value);
     event.preventDefault();
   }
-  
-  handleClick (event) {
-    this.setState({value: event.target.value.toUpperCase()});
-  }
-
-  render () {
+  render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          Name
-          
-          <textarea type="text" value={this.state.value} onChange={this.handleClick}/>
-          <input type="submit" value="Submit" />
-
-        </form>
-
-        <select>
-          <option value="grapefruit">Grapefruit</option>
-          <option value="lime">Lime</option>
-          <option selected value="coconut">Coconut</option>
-          <option value="mango">Mango</option>
-        </select>
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Pick your favorite La Croix flavor:
+          <select value={this.state.value} onChange={this.handleChange}>
+            <option value="grapefruit">Grapefruit</option>
+            <option value="lime">Lime</option>
+            <option value="coconut">Coconut</option>
+            <option value="mango">Mango</option>
+          </select>
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+      
+        <h2>You have selected the <i>{this.state.value}</i> flavour</h2>
       </div>
     );
   }
 }
 
 ReactDOM.render(
-  <NameForm />,
+  <FlavorForm />,
   document.getElementById('root')
 );
